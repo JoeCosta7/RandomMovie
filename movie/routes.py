@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
-routes = Blueprint('main', __name__)
+routes = Blueprint('routes', __name__, template_folder='templates')
 
 @routes.route('/')
 def home():
-    return "Hello World"
+    return render_template("home.html")
