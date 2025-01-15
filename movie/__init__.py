@@ -17,6 +17,7 @@ def close_connection(exception):
 
 def create_app():
     app = Flask(__name__)
+    app.config['SECRET_KEY'] = "what"
 
     app.teardown_appcontext(close_connection)
 

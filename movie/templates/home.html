@@ -8,10 +8,56 @@
     <link rel="stylesheet" href="{{url_for('static', filename= 'css/style.css') }}">
   </head>
   <body>
-    <h1 class='element'>Random Movie Selector</h1>
-    <div>
-    </div>
-    <script src="index.js">
-    </script>
+      <form method="POST">
+      <h1 class='title'>Random Movie Selector</h1>
+      <div class="boxes">
+      <p class="individual"><img src="logos/max.png" alt="Max" /> </label>{{movie.max}}</p>
+      <p class="individual"><img src="logos/netflix.png" alt="Netflix" /> </label>{{movie.netflix}}</p>
+      <p class="individual"><img src="logos/hulu.png" alt="Hulu" /> </label>{{movie.hulu}}</p>
+      <p class="individual"><img src="logos/primevideo.png" alt="Prime Video" /> </label>{{movie.prime}}</p>
+      <p class="individual"><img src="logos/appletv+.png" alt="AppleTV+" /> </label>{{movie.appletv}}</p>
+      </div>
+      <div class="year-slider-container">
+        <p>
+        <label for="{{movie.min_year.id}}">{{movie.min_year.label}}</label>
+        <input type="range" id="min_year" name="min_year" min="1900" max="2025" step="1" class="slider" value= "{{movie.min_year.data or 1900}}"/>
+        </p>
+        <p>
+        <label for="{{movie.max_year.id}}">{{movie.max_year.label}}</label>
+        <input type="range" id="max_year" name="max_year" min="1900" max="2025" step="1" class='slider' value = "{{movie.max_year.data or 2025}}"/>
+        </p>
+        <p>Selcted Range: <span id="rangeDisplay">{{ movie.min_year.data or 1900 }} - {{ movie.max_year.data or 2025 }}</span></p>
+      </div>
+      <div>
+      <p>{{movie.submit}}</p>
+      </div>
+      </form>
+      <script>
+          var minYear = document.getElementById('min_year');
+          var maxYear = document.getElementById('max_year');
+          var yearRange = document.getElementById('rangeDisplay');
+          
+          function updateRangeDisplay() {
+            yearRange.textContent = minYear.value + ' - ' + maxYear.value;
+          }
+          
+
+          updateRangeDisplay();
+          
+
+          minYear.addEventListener('input', function() {
+            if (parseInt(minYear.value) > parseInt(maxYear.value)) {
+              maxYear.value = minYear.value;
+          }
+            updateRangeDisplay();
+          });
+
+          maxYear.addEventListener('input', function() {
+            if (parseInt(maxYear.value) < parseInt(minYear.value)) {
+              minYear.value = maxYear.value;
+          }
+            updateRangeDisplay();
+          });
+      </script>
   </body>
 </html>

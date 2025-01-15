@@ -1,10 +1,19 @@
 body {
-    background-color: lightgray;
-  }
+  background-color: lightgray;
+}
 
-.element {
+.title {
     max-width: fit-content;
     margin-inline: auto;
     font-family: 'Papyrus', fantasy;
 }
-
+.boxes {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.individual{
+  border: 1px solid black;
+  padding: 5px;
+  background-color: white;
+}

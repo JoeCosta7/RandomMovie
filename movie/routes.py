@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
+from movie.forms import MovieForm
 
 routes = Blueprint('routes', __name__, template_folder='templates')
 
-@routes.route('/')
+@routes.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template("home.html")
+    movie = MovieForm()
+    return render_template("home.html", movie=movie)
