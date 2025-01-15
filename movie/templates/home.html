@@ -17,19 +17,56 @@
       <p class="individual"><img src="logos/primevideo.png" alt="Prime Video" /> </label>{{movie.prime}}</p>
       <p class="individual"><img src="logos/appletv+.png" alt="AppleTV+" /> </label>{{movie.appletv}}</p>
       </div>
-      <div class="year-slider-container">
+      <div class="slider-container">
         <p>
         <label for="{{movie.min_year.id}}">{{movie.min_year.label}}</label>
         <input type="range" id="min_year" name="min_year" min="1900" max="2025" step="1" class="slider" value= "{{movie.min_year.data or 1900}}"/>
         </p>
         <p>
-        <label for="{{movie.max_year.id}}">{{movie.max_year.label}}</label>
         <input type="range" id="max_year" name="max_year" min="1900" max="2025" step="1" class='slider' value = "{{movie.max_year.data or 2025}}"/>
-        </p>
-        <p>Selcted Range: <span id="rangeDisplay">{{ movie.min_year.data or 1900 }} - {{ movie.max_year.data or 2025 }}</span></p>
+        <label for="{{movie.max_year.id}}">{{movie.max_year.label}}</label>
+      </p>
       </div>
+      <p class="slider-container">Selected Range: <span id="rangeDisplay">{{ movie.min_year.data or 0.0 }} - {{ movie.max_year.data or 2025 }}</span></p>
+      <div class="slider-container">
+        <p>
+        <label for="{{movie.min_rating.id}}">{{movie.min_rating.label}}</label>
+        <input type="range" id="min_rating" name="min_rating" min="0.0" max="10.0" step=".1" class="slider" value= "{{movie.min_rating.data or 0.0}}"/>
+        </p>
+        <p>
+        <input type="range" id="max_rating" name="max_rating" min="0.0" max="10.0" step=".1" class='slider' value = "{{movie.max_rating.data or 10.0}}"/>
+        <label for="{{movie.max_rating.id}}">{{movie.max_rating.label}}</label>
+      </p>
+      </div>
+      <p class="slider-container">Selected Range: <span id="ratingRange">{{ movie.min_rating.data or 0.0 }} - {{ movie.max_rating.data or 10.0 }}</span></p>
       <div>
-      <p>{{movie.submit}}</p>
+      <div class="slider-container">
+        <label for="genre">Genre:</label>
+        <select id="genre" name="genre">
+        <option value="Action">Action</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Animation">Animation</option>
+        <option value="Biography">Biography</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Crime">Crime</option>
+        <option value="Documentary">Documentary</option>
+        <option value="Drama">Drama</option>
+        <option value="Family">Family</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="History">History</option>
+        <option value="Horror">Horror</option>
+        <option value="Music">Music</option>
+        <option value="Musical">Musical</option>
+        <option value="Mystery">Mystery</option>
+        <option value="Romance">Romance</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Sport">Sport</option>
+        <option value="Thriller">Thriller</option>
+        <option value="War">War</option>
+        <option value="Western">Western</option>
+        </select>
+      </div>
+      <p class="slider-container">{{movie.submit}}</p>
       </div>
       </form>
       <script>
@@ -57,6 +94,31 @@
               minYear.value = maxYear.value;
           }
             updateRangeDisplay();
+          });
+          var minRating = document.getElementById('min_rating');
+          var maxRating = document.getElementById('max_rating');
+          var ratingRange = document.getElementById('ratingRange');
+          
+          function updateRatingDisplay() {
+            ratingRange.textContent = minRating.value + ' - ' + maxRating.value;
+          }
+          
+
+          updateRatingDisplay();
+          
+
+          minRating.addEventListener('input', function() {
+            if (parseInt(minRating.value) > parseInt(maxRating.value)) {
+              maxRating.value = minRating.value;
+          }
+            updateRatingDisplay();
+          });
+
+          maxRating.addEventListener('input', function() {
+            if (parseInt(maxRating.value) < parseInt(minRating.value)) {
+              minRating.value = maxRating.value;
+          }
+            updateRatingDisplay();
           });
       </script>
   </body>
