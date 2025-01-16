@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="{{url_for('static', filename= 'css/style.css') }}">
   </head>
   <body>
-      <form method="POST">
+      <form method="POST" id="movieForm">
+      {{ movie.hidden_tag() }}
       <h1 class='title'>Random Movie Selector</h1>
       <div class="boxes">
       <p class="individual"><img src="logos/max.png" alt="Max" /> </label>{{movie.max}}</p>
@@ -41,35 +42,28 @@
       <p class="slider-container">Selected Range: <span id="ratingRange">{{ movie.min_rating.data or 0.0 }} - {{ movie.max_rating.data or 10.0 }}</span></p>
       <div>
       <div class="slider-container">
-        <label for="genre">Genre:</label>
-        <select id="genre" name="genre">
-        <option value="Action">Action</option>
-        <option value="Adventure">Adventure</option>
-        <option value="Animation">Animation</option>
-        <option value="Biography">Biography</option>
-        <option value="Comedy">Comedy</option>
-        <option value="Crime">Crime</option>
-        <option value="Documentary">Documentary</option>
-        <option value="Drama">Drama</option>
-        <option value="Family">Family</option>
-        <option value="Fantasy">Fantasy</option>
-        <option value="History">History</option>
-        <option value="Horror">Horror</option>
-        <option value="Music">Music</option>
-        <option value="Musical">Musical</option>
-        <option value="Mystery">Mystery</option>
-        <option value="Romance">Romance</option>
-        <option value="Sci-Fi">Sci-Fi</option>
-        <option value="Sport">Sport</option>
-        <option value="Thriller">Thriller</option>
-        <option value="War">War</option>
-        <option value="Western">Western</option>
-        </select>
+      <label for="genre">Genre:</label>
+      {{ movie.genre }}
       </div>
       <p class="slider-container">{{movie.submit}}</p>
       </div>
       </form>
+      <div class="messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+      </div>
       <script>
+          document.getElementById('movieForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            this.reset();
+          });
           var minYear = document.getElementById('min_year');
           var maxYear = document.getElementById('max_year');
           var yearRange = document.getElementById('rangeDisplay');
@@ -108,18 +102,20 @@
           
 
           minRating.addEventListener('input', function() {
-            if (parseInt(minRating.value) > parseInt(maxRating.value)) {
+            if (parseFloat(minRating.value) > parseFloat(maxRating.value)) {
               maxRating.value = minRating.value;
           }
             updateRatingDisplay();
           });
 
           maxRating.addEventListener('input', function() {
-            if (parseInt(maxRating.value) < parseInt(minRating.value)) {
+            if (parseFloat(maxRating.value) < parseFloat(minRating.value)) {
               minRating.value = maxRating.value;
           }
             updateRatingDisplay();
           });
+
+          
       </script>
   </body>
 </html>
