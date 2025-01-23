@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .forms import Movie
 from .models import add_movie
-import sqlite3
+from .access import access
+from .delete import delete_data
 
 routes = Blueprint('routes', __name__, template_folder='templates')
 
@@ -24,6 +25,12 @@ def home():
             genre = movie.genre.data
     
             add_movie(hbo_max, netflix, hulu, prime, appletv, min_rating, max_rating, min_year, max_year, genre)
-    
+            return redirect(url_for('routes.random_movie'))
           
     return render_template("home.html", movie=movie)
+
+@routes.route('/random_movie')
+def random_movie():
+    random_movie = access()
+    delete_data()
+    return render_template("random_movie.html", random_movie=random_movie)

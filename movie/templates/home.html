@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Random Movie Selector</title>
     <link rel="stylesheet" href="{{url_for('static', filename= 'css/style.css') }}">
+    {% endblock %}
   </head>
   <body>
       <form method="POST" id="movieForm">
@@ -48,22 +50,8 @@
       <p class="slider-container">{{movie.submit}}</p>
       </div>
       </form>
-      <div class="messages">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul>
-                    {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-      </div>
       <script>
-          document.getElementById('movieForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            this.reset();
-          });
+      
           var minYear = document.getElementById('min_year');
           var maxYear = document.getElementById('max_year');
           var yearRange = document.getElementById('rangeDisplay');
